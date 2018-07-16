@@ -19,12 +19,13 @@ import java.util.List;
 @Controller
 public class Kontroler {
     private RepozytortiumArtSpoz spoz;
-    private RepozytoriumInne repozytoriumInne;
+    private List<RepozytoriumInne> repozytoriumInne;
     private RepozytoriumArtGospDOm gospDOm;
     private RepozytoriumArtykolow artykolow;
+    private Inne inne;
 
 
-    public Kontroler(RepozytortiumArtSpoz spoz, RepozytoriumInne repozytoriumInne, RepozytoriumArtGospDOm gospDOm) {
+    public Kontroler(RepozytortiumArtSpoz spoz, List<RepozytoriumInne> repozytoriumInne, RepozytoriumArtGospDOm gospDOm) {
         this.spoz = spoz;
         this.repozytoriumInne = repozytoriumInne;
         this.gospDOm = gospDOm;
@@ -35,10 +36,10 @@ public class Kontroler {
     public void cos(HttpServletResponse response) throws IOException {
         PrintWriter writer = response.getWriter();
 
-        writer.print("<meta charset=utf-8>"+"<a href=http://localhost:8080/lista?kategoria=wszystkie>" + "wszystkie artykoły" + "</a>"+"<br>");
-        writer.print("<meta charset=utf-8>"+"<a href=http://localhost:8080/lista?kategoria=spozywcze>" + "artykóły spożywcze" + "</a>"+"<br>");
-        writer.print("<meta charset=utf-8>"+"<a href=http://localhost:8080/lista?kategoria=inne>" + "artykóły inne" + "</a>"+"<br>");
-        writer.print("<meta charset=utf-8>"+"<a href=http://localhost:8080/lista?kategoria=domowe>" + "artykóły gospodarstwa domowego" + "</a>"+"<br>");
+        writer.print("<meta charset=utf-8>" + "<a href=http://localhost:8080/lista?kategoria=wszystkie>" + "wszystkie artykoły" + "</a>" + "<br>");
+        writer.print("<meta charset=utf-8>" + "<a href=http://localhost:8080/lista?kategoria=spozywcze>" + "artykóły spożywcze" + "</a>" + "<br>");
+        writer.print("<meta charset=utf-8>" + "<a href=http://localhost:8080/lista?kategoria=inne>" + "artykóły inne" + "</a>" + "<br>");
+        writer.print("<meta charset=utf-8>" + "<a href=http://localhost:8080/lista?kategoria=domowe>" + "artykóły gospodarstwa domowego" + "</a>" + "<br>");
     }
 
     @RequestMapping("/lista")
@@ -46,11 +47,16 @@ public class Kontroler {
     public void lista(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String kategoria = request.getParameter("kategoria");
         PrintWriter writer = response.getWriter();
+        String result = "";
         if (kategoria.equals("spozywcze")) {
 
             writer.print(spoz.toString());
         } else if (kategoria.equals("inne")) {
-            writer.print(repozytoriumInne.toString());
+            for (int i =0; i<repozytoriumInne.size();i++){
+                result+=repozytoriumInne.get(i).getInne().get(i).getNazwa();
+            }
+            writer.print(result);
+
         } else if (kategoria.equals("domowe")) {
             writer.print(gospDOm.toString());
         } else if (kategoria.equals("wszystkie")) {
