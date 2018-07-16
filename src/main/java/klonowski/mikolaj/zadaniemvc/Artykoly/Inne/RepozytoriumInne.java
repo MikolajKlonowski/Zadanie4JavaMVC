@@ -25,10 +25,5 @@ public class RepozytoriumInne {
         return inneLista;
     }
 
-    @Override
-    public String toString() {
-        return "RepozytoriumInne{" +
-                "inneLista=" + inneLista.get(1) +
-                '}';
-    }
+
 }

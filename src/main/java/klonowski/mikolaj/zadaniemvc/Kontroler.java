@@ -5,6 +5,7 @@ import klonowski.mikolaj.zadaniemvc.Artykoly.ArtSpozy.RepozytortiumArtSpoz;
 import klonowski.mikolaj.zadaniemvc.Artykoly.Artykoly;
 import klonowski.mikolaj.zadaniemvc.Artykoly.Inne.Inne;
 import klonowski.mikolaj.zadaniemvc.Artykoly.Inne.RepozytoriumInne;
+import klonowski.mikolaj.zadaniemvc.Artykoly.RepozytoriumArtykolow;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -20,7 +21,7 @@ public class Kontroler {
     private RepozytortiumArtSpoz spoz;
     private RepozytoriumInne repozytoriumInne;
     private RepozytoriumArtGospDOm gospDOm;
-
+    private RepozytoriumArtykolow artykolow;
 
 
     public Kontroler(RepozytortiumArtSpoz spoz, RepozytoriumInne repozytoriumInne, RepozytoriumArtGospDOm gospDOm) {
@@ -33,7 +34,11 @@ public class Kontroler {
     @ResponseBody
     public void cos(HttpServletResponse response) throws IOException {
         PrintWriter writer = response.getWriter();
-        writer.print("sdad");
+
+        writer.print("<meta charset=utf-8>"+"<a href=http://localhost:8080/lista?kategoria=wszystkie>" + "wszystkie artykoły" + "</a>"+"<br>");
+        writer.print("<meta charset=utf-8>"+"<a href=http://localhost:8080/lista?kategoria=spozywcze>" + "artykóły spożywcze" + "</a>"+"<br>");
+        writer.print("<meta charset=utf-8>"+"<a href=http://localhost:8080/lista?kategoria=inne>" + "artykóły inne" + "</a>"+"<br>");
+        writer.print("<meta charset=utf-8>"+"<a href=http://localhost:8080/lista?kategoria=domowe>" + "artykóły gospodarstwa domowego" + "</a>"+"<br>");
     }
 
     @RequestMapping("/lista")
@@ -48,11 +53,13 @@ public class Kontroler {
             writer.print(repozytoriumInne.toString());
         } else if (kategoria.equals("domowe")) {
             writer.print(gospDOm.toString());
+        } else if (kategoria.equals("wszystkie")) {
+            writer.print(artykolow.toString());
+
+
         }
-
-
-    }
 
 //
 
+    }
 }
